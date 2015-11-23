@@ -91,7 +91,7 @@ newton.raphson <- function(x0, data, ll.prime, ll.prime2, max.iter=100) {
     first.deriv = ll.prime(data, b)
     vnorm = norm(first.deriv, "f")
     if(vnorm < 0.00001) {
-      sprintf("Converged after %d iterations", i)
+      print(sprintf("Converged after %d iterations", i))
       return(b)
     } else {
       second.deriv = ll.prime2(data, b)
@@ -124,6 +124,7 @@ newton.raphson <- function(x0, data, ll.prime, ll.prime2, max.iter=100) {
 #                  binom.log.likelihood.prime)
 #   - reference.model$coefficients
 #
+# [1] "Converged after 5 iterations"
 #                               [,1]
 # (Intercept)           2.141562e-08
 # factor(induced)1     -4.881931e-09
