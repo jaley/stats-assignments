@@ -115,6 +115,8 @@ newton.raphson <- function(x0, data, ll.prime, ll.prime2, max.iter=100) {
 # > newton.raphson(c(1, 0, 0, 0, 0), d, 
 #                  binom.log.likelihood.prime, 
 #                  binom.log.likelihood.prime)
+#
+# [1] "Converged after 5 iterations"
 #                            [,1]
 # (Intercept)          -1.7442332
 # factor(induced)1      0.4608354
