@@ -103,8 +103,7 @@ newton.raphson <- function(x0, data, ll.prime, ll.prime2, max.iter=100) {
   return(b)
 }
 
-### Now let's test the algorithm, using something quite close to the solution
-### we got from R's implementation, to see if we imrpove the solution:
+### Now let's test the algorithm:
 
 # > newton.raphson(c(1, 0, 0, 0, 0), d, 
 #                  binom.log.likelihood.prime, 
