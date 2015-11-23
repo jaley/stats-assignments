@@ -105,6 +105,13 @@ newton.raphson <- function(x0, data, ll.prime, ll.prime2, max.iter=100) {
 
 ### Now let's test the algorithm:
 
+# Set up some test data, we'll use the design matrix from
+# reference.model, so that we know what coefficients the algorithm
+# *should* produce if it's working properly:
+
+# > d <- cbind(infert$case, rep(1, nrow(infert)), 
+#              model.matrix(reference.model))
+
 # > newton.raphson(c(1, 0, 0, 0, 0), d, 
 #                  binom.log.likelihood.prime, 
 #                  binom.log.likelihood.prime)
