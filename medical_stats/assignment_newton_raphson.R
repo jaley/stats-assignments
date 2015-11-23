@@ -4,8 +4,10 @@
 
 # The 'infert' dataset contains data about infertility after induced and
 # spontaneous abortions. The data are given with a binary 0/1 response for
-# cases vs controls;
+# cases vs controls.
 
+# To start with, let's use R's implementation in the GLM function with this
+# dataset, so that we have a golden answer to compare our algorithm to.
 
 reference.model <- glm(case ~ factor(induced) + factor(spontaneous), 
                        data = infert,
