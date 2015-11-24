@@ -1,0 +1,146 @@
+\documentclass{article}
+
+\title{Medical Statistics Assignment}
+\author{James Aley}
+\date{November 2015}
+
+\begin{document}
+
+\maketitle
+
+\section{Analysis of a Journal Article}
+
+This article discusses statistical elements of the analyses in a
+medical study focusing on the impact coffee consumption may have on
+risk of individuals later suffering from type 2 diabetes mellitus
+\cite{vandam}.
+
+The study is a prospective analysis, using individuals
+selected randomly from public registers in two Dutch
+towns. Participants were sent a questionnaire to record various
+aspects of their lifestyle considered relevant to the
+study. Importantly, this of course covered how much coffee the
+participants consumed, measured in cups/day, but also various other
+factors that were thought to be possibly confounding in the study.
+
+We note at this point that this is necessary, as though the study is
+prospective, it is \emph{not} a clinical trial. We do have an element
+of randomization to help control for confounds, but the explanatory
+variable of interest, the  amount of coffee consumed by each
+individual, has not been actively manipulated as a part of the
+study. The study therefore can only hope to demonstrate a strong
+association between coffee consumption and risk of type 2 diabetes. We
+will see later, however, that some considerable effort is made to
+monitor the impact of potentially confounding factors.
+
+The study excludes a number of individuals upfront as part of the
+design. This includes people that are under 30 years old, pregnant, or
+had missing information in the survey. After these exclusions, the
+total number of participants was 17,111. These individuals were sent
+follow-up questionnaires over subsequent years to check whether they
+had been diagnosed with type 2 diabetes. In total, 306 such cases were
+recorded in the study.
+
+A 95\% confidence interval for incidence of type 2 diabetes within
+this population would therefore be (0.016, 0.020), with estimated
+value 0.017. Other studies placed overall population incidence for the
+Netherlands at 2.2\% in 2003 \cite{prevalence}. It seems likely that
+the age restrictions on this study (30-60 years) may explain this
+slightly lower observation in the study cohort. However, we would also
+expect there to be some selection bias, in that participants diagnosed
+with diabetes may be more enthusiastic to respond to follow-ups than
+others.
+
+The article covers some measures used to monitor and control for
+potential confounds in the analysis. This seems like a good idea, as
+coffee consumption is likely to correlate quite strongly with various
+other lifestyle choices that could have an impact. Many such potential
+confounding factors are identified in the study, but we should note
+that this highlights one of the main drawbacks in this kind of
+study. In order to test for confounds, we have to propose and
+enumerate them. It is entirely plausible that others exist, that we're
+unable to foresee at the beginning of the study, when designing the
+questionnaire for participants to complete. We therefore would have no
+data about such factors and be unable to control for them when
+interpreting the results.
+
+The article states that for each of the characteristics they measured
+in participants, tests for correlation with coffee consumption were
+``obtained by modeling the median value of each category of coffee
+consumption as a continuous variable''. It's not entirely clear what
+is meant by this, as no further details are provided in other parts of
+the article, however the need to map consumption categories to a
+continuous variable perhaps suggests some kind of regression analysis
+is being used.
+
+These tests find that coffee consumption correlates
+somewhat with all characteristics except for cardiovascular disease
+and consumption of dark bread. One of the more surprising elements of
+this study is that those characteristics showing positive correlation
+with coffee consumption are generally considered to have a negative
+impact on health. If we were to attribute the conclusions in this
+study to the confounding factors considered here, it would perhaps be
+even more surprising than attributing it to coffee consumption anyway.
+
+The study makes use of the \emph{Cox proportional hazards model}
+\cite{cox} to estimate relative risk for participants as a function of
+their coffee consumption, time and other factors suspected to be
+confounding. This is a time-series analysis technique, which seems
+like a sensible choice, given that we cannot ignore how time plays an
+important role in the diagnosis of diseases such as type 2
+diabetes. We do not have an immediately measurable response variable;
+all we know is that a participant has or has not \emph{yet} been
+diagnosed. Censoring therefore plays an important role in interpreting
+the results.
+
+The Cox proportional hazards model relies on the \emph{proportional
+  hazards assumption}, given below:
+
+\begin{equation}
+h_{z}(t) = g(z)h_{0}(t)
+\end{equation}
+
+Where \(z\) is a vector of explanatory variables, \(h_{0}(t)\) is the
+baseline or nominal hazard function and \(g(z)\) is a function of
+\emph{only} the explanatory variables (not time), which we multiply by
+the baseline hazard rate to obtain the hazard function taking \(z\)
+into account. Thus we assume that the impact of \(z\) does not vary
+with time beyond the base hazard rate.
+
+It's very hard to check whether this assumption is reasonable, as we
+don't know what (if anything) in coffee could be helping to prevent
+type 2 diabetes. We certainly have no information to tell us whether
+such an effect with vary with time, whether it be how long a
+participant has been drinking coffee at the specified quantity, their
+age or length of exposure to potential causes.
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{vandam}
+Rob M van Dam, Edith J M Feskens.
+\textit{Coffee Consumption and risk of type 2 diabetes mellitus.}
+Lancet 2002; 360: 1477–78
+
+\bibitem{prevalence}
+Department of Family Practice, University of Groningen.
+\emph{Prevalence, incidence and mortality of type 2 diabetes mellitus
+revisited: a prospective population-based study in The Netherlands
+(ZODIAC-1).}
+Eur J Epidemiol. 2003;18(8):793-800.
+
+\bibitem{cox}
+Cox, D. R., and Oakes, D. (1984).
+\emph{Analysis of Survival Data}.
+Chapman and Hall, London, New York.
+
+\end{thebibliography}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
