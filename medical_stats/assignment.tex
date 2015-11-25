@@ -1,8 +1,18 @@
 \documentclass{article}
 
+\usepackage{listings}
+\usepackage{hyperref}
+
 \title{Medical Statistics Assignment}
 \author{James Aley}
 \date{November 2015}
+
+\lstset{ %
+  breakatwhitespace = false,
+  breaklines = true,
+  tabsize=2,
+  showspaces=false
+}
 
 \begin{document}
 
@@ -110,11 +120,85 @@ with time beyond the base hazard rate.
 It's very hard to check whether this assumption is reasonable, as we
 don't know what (if anything) in coffee could be helping to prevent
 type 2 diabetes. We certainly have no information to tell us whether
-such an effect with vary with time, whether it be how long a
+such an effect will vary with time, whether it be how long a
 participant has been drinking coffee at the specified quantity, their
 age or length of exposure to potential causes.
 
+Proceeding with the Cox regression model, however, we can reasonably
+assume that the relative risk estimates cited in the article have been
+produced using a model of the form:
 
+\begin{equation}
+\frac{h_{z}(t | X_1, \ldots, X_k)}{h_0(t)} = \exp(\beta_1 X_1 + \ldots +
+\beta_k X_k)
+\end{equation}
+
+The ratio of \(h_z\) to \(h_0\) would be the relative risk reported,
+and the \(X_1 \ldots X_k\) are explanatory variables for the
+regression model. In this case, the explanatory variable of primary
+interest would be coffee consumption levels. Again, the article
+mentions that consumption categories were mapped to continuous
+variables with the same technique as before.
+
+The conclusions reached about the relative risk for high consumers of
+coffee being approximately 0.50 are based on inferences around the
+corresponding \(\beta\) value in the regression model. If we let
+\(\beta_c\) be our coefficient corresponding to the continuous random
+variable created for coffee consumption in cups/day, then the p-values
+provided are presumably testing the null hypothesis \(H_0: \beta_c = 0
+\) vs the alternative \(H_1: \beta_c \neq 0\). The very low \textit{p}-value
+indicates that level of coffee consumption significantly improves the
+model for predicting diagnoses over time.
+
+It is useful to consider at this point what the relative risk, or
+hazard ratio in this model actually represents, and how the response
+variable was initially measured in the study. The hazard function
+itself is the probability of an event occurring after time \(t\),
+\emph{in the next instant}. In this study, that probability represents
+diagnosis of type 2 diabetes. However, such a diagnosis is not really
+an immediate effect, it requires that a participant notices symptoms
+in themselves, visits a medical professional and then later completes
+a questionnaire providing the date this happened. Many patients first
+go through phases of being ``pre-diabetic'' before their conditions
+worsen and a diagnosis of full type 2 diabetes is issued.
+
+The requirement for action from the patient in order to give us a
+value for \(t\) could pose problems. It was already demonstrated in
+the analysis of potential confounding factors that coffee consumption
+correlates quite strongly with various other (mostly unhealthy)
+life-style choices. It seems entirely possible that participants
+drinking more coffee may also visits doctors less frequently, on
+average. They may also be less likely to perceive problems in the
+symptoms, as they are initially quite subtle (increased thirst
+and hunger, for example). The study makes no mention of this, or of
+any requirement for participants in the study to regular have
+checkups, which may have helped control for issues like this.
+
+Though we can see that there are various parts of the study
+susceptible to systematic problems, the overall conclusions are
+certainly interesting. We can see that there are a few points where
+the statistical analysis may have been somewhat sub-optimal, but for such a
+strong measured effect, it seems unlikely that it would impact
+conclusions substantially. The biggest risk seems to be that perhaps
+the very design of the study, relying on action from participants to
+provide a value for the time until diagnosis, may actually correlate
+with the same personality traits that the study demonstrated coffee
+consumption does. The methods used to control for confounds in this
+study do not control for that particular source of potential bias. It
+may be interesting to repeat the analysis with logistic regression,
+modeling the proportion of cases in a fixed amount of time, rather
+than as a function of time. If the hypothesis about diagnosis time
+correlating with consumption is correct, we would expect to see a
+smaller effect this way.
+
+\section{Newton-Raphson for Binomial Max-Likelihood}
+
+The code in the following listing provides an implementation for the
+Newton-Raphson algorithm, to fit parameters that maximize the
+likelihood function for the Binomial distribution. The code can also
+be access online, see \cite{github}.
+
+\lstinputlisting[language=R]{assignment_newton_raphson.R}
 
 \begin{thebibliography}{9}
 
@@ -134,6 +218,11 @@ Eur J Epidemiol. 2003;18(8):793-800.
 Cox, D. R., and Oakes, D. (1984).
 \emph{Analysis of Survival Data}.
 Chapman and Hall, London, New York.
+
+\bibitem{github}
+James Aley on GitHub.
+\emph{Newton-Raphson assignment source code.}
+\url{https://github.com/jaley/stats-assignments/blob/master/medical_stats/assignment_newton_raphson.R}
 
 \end{thebibliography}
 
