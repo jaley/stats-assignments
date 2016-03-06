@@ -31,9 +31,7 @@ The Pareto distribution has probability density function $f(x)$ given by:
 \end{displaymath}
 
 To calculate the cumulative distribution function, we integrate this
-function over the support \(x \geq 0\):
-
-%% &= \left[   \right]_0^\infty
+function over the range $\left[ 0, u \right]$:
 
 \begin{align*}
   F(u) &= \int_0^u f(x) \, \mathrm{d}x \\
@@ -85,13 +83,13 @@ Therefore, substituting in $x = 0$ and subtracting from $0$ gives us:
 \end{align*}
 
 For the median, we need to find the value $m$ that puts equal
-probability density on either side of it. That is to say that $F(x) =
+probability mass on either side of it. That is to say that $F(m) =
 \frac{1}{2}$
 
 \begin{align*}
   F(m) &= \frac{1}{2} \\
   1 - {\left( \frac{\beta}{m + \beta} \right)}^{\alpha} &= \frac{1}{2} \\
-  \frac{\beta}{m + \beta} &= {\frac{1}{2}}^{\frac{1}{\alpha}} \\
+  \frac{\beta}{m + \beta} &= {\left( \frac{1}{2} \right)}^{\frac{1}{\alpha}} \\
   m &= \beta \left( \frac{1}{2^{\frac{1}{\alpha}}} - 1 \right)
 \end{align*}
 
@@ -219,6 +217,20 @@ congruential generator, or any standard method for generating
 pseudo-random uniform numbers. The \texttt{runif()} function can be
 used to achieve this in R.
 
+\subsection*{Note: R Plotting Requirements}
+
+The remainder of this document makes use of the \texttt{ggplot2} R
+package for rendering plots. The following snippet of code can be run
+to make this available in order to reproduce the plots:
+
+\begin{minted}{R}
+# Install ggplot if it's not already available
+install.packages('ggplot2')
+
+# Now load the functions from the ggplot2 package
+require(ggplot2)
+\end{minted}
+
 \subsection*{(c)}
 
 The following code snippet includes implementations of the Pareto
@@ -248,10 +260,7 @@ pareto.inv.cdf <- function(alpha, beta, q) {
 }
 
 ## Compare simulated values to the density function
-require(ggplot2)
-
 pareto <- data.frame(simulated = pareto.inv.cdf(3, 100000, runif(10000)))
-
 ggplot(pareto, aes(simulated)) +
   geom_density(colour="red", fill="red", alpha=0.1) +
   stat_function(fun = function(x) {pareto.pdf(3, 100000, x)},
@@ -280,7 +289,7 @@ to reach the very low extremes of the real PDF.
 
 Insurance claims are likely to me well-modeled by the Pareto
 distribution, as it is very heavy-tailed. It is able to realistically
-represent the very low probability of large claims, corresponding to
+represent the relatively low-probability large claims, corresponding to
 extreme loss for the insurer. Insurance claims are also likely to
 follow the \emph{Pareto Principle}, in that most of the value of the
 payments made will be to relatively few (large) claims.
@@ -322,7 +331,7 @@ simulate.year.end.assets <- function(n_runs = 10000,
     # Number of claims this year, in this simulation
     n_claims <- rbinom(1, n_customers, claim_prob)
 
-    # Calculate year-end profit/loss for this number of claims, by
+    # Calculate year-end assets for this number of claims, by
     # drawing from Pareto distribution
     outcomes[i] <- start_assets +
       (n_customers * premium) -
@@ -331,8 +340,8 @@ simulate.year.end.assets <- function(n_runs = 10000,
   return(outcomes)
 }
 
-# Reformat simulation data into a data frame for plotting
-# a histogram of the simulation outcomes
+# Load simulation results into a data frame for plotting
+# a histogram of the outcomes
 bankruptcy <- data.frame(assets=simulate.year.end.assets())
 ggplot(bankruptcy, aes(assets)) +
   geom_density(colour="blue", fill="blue", alpha=0.1) +
@@ -433,6 +442,126 @@ claim probability is below 0.08.
 \label{fig:q3_claims}
 \end{figure}
 
+\section*{Question 4}
 
+This report summarises an investigation into company year-end asset
+values and provides recommendations accordingly. The investigation in
+question involved running simulations based on information we
+currently hold on customers and insurance claim behaviour. The
+following details have been assumed to be accurate throughout
+simulations:
+
+\begin{itemize}
+  \item Number of customers: 1,000
+  \item Annual premium charged: \pounds{6,000}
+  \item Current asset value: \pounds{250,000}
+  \item Customers can only make one claim per year
+  \item 10\% probability of a customer making a claim
+  \item Claims prices can be reasonably modeled by a Pareto distribution with
+    parameters $\alpha = 3$ and $\beta = 100,000$
+\end{itemize}
+
+Based on these assumptions, the mean asset valuation at the end of the
+year in simulations was approximately \pounds{1250000}. However,
+variability was seen to be very high, and in fact a 95\% confidence
+interval for asset valuation was (-\pounds{900000},
+\pounds{2900000}). That is to say that though substantial profits
+are entirely likely, we cannot rule out the possibility of a
+significant loss or bankruptcy at the 95\% level of significance.
+
+In simulations, we found that there is currently about a 10\% chance
+of bankruptcy with current pricing and claim characteristics. This is
+worryingly high, and certainly something that the company should look
+to address in order to secure sustainable business. Various factors
+have been investigated in simulations to assess impact on these
+metrics and are summarised in following sections.
+
+\subsection*{Premium Price}
+
+Unsurprisingly, increasing the customer premium price can be shown to
+reduce probability of bankruptcy and increase predicted profits
+according to simulations. Figure~\ref{fig:q3_premiums} shows how
+increases in the current premium price reduce the probability of
+bankruptcy. If we work with a target of reducing the probability to
+2\%, indicated by the dotted line, then increasing the premium price
+to \pounds{7000} would be sufficient.
+
+The corresponding mean profit simulated was \pounds{2250000} with 95\%
+confidence limits of (\pounds{166000}, \pounds{3900000}). It should of
+course be noted however that this change would likely cause some
+customers to revisit their choice of insurance supplier, and we would
+inevitably lose some customers. This impact of the number of customers
+buying insurance is investigated in a subsequent section.
+
+\subsection*{Claim Probability}
+
+The probability of customers making a claim has a clear impact on
+profits and risk of bankruptcy too, as shown in
+Figure~\ref{fig:q3_claims}. Reducing the probability of a claim from
+the current 10\% to 8\% would also reach the 2\% bankruptcy risk
+target. Impact on profit estimates are comparable to the suggest
+increase in premium price from the previous section.
+
+It should be noted, however, that this factor is likely more difficult
+for the company to control. Various measures could be taken to limit
+what customers are able to make claims for, but again this is likely
+to cause customers to choose other suppliers in some circumstances.
+
+\subsection*{Number of Customers}
+
+Perhaps the least risky option in terms of unpredictable and
+potentially undesirable consequences would be to increase the number
+of customers buying insurance. Figure~\ref{fig:q4_customers}
+illustrates the impact of this initiative on bankruptcy risk via
+simulations again.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{q4_customers}
+  \caption{Bankruptcy probability for increasing customer numbers}
+  \centering
+\label{fig:q4_customers}
+\end{figure}
+
+The 2\% target can be reach by increasing our customer base four times
+to 4,000. If it is possible to achieve this through advertising
+initiatives then we could substantially improve profits and decrease
+bankruptcy risk without putting our existing customer relationships at
+risk.
+
+\subsection*{Recommendations}
+
+Any of the changes previously mentioned for the above factors could
+improve on the current situation, but some difficult judgment calls
+need to be made on the trade-offs we expect to see. A few key pieces
+of information that would help in this respect are:
+
+\begin{itemize}
+  \item How many customers do we expect will cancel their policy per
+    unit increase in premium price?
+  \item Are there are any policy changes that can be made to reduce
+    the probability of a claim from each customer, and again, what
+    would the impact be in terms of cancellations?
+  \item What would the cost be of advertising initiatives required to
+    increase customer base to the suggested levels?
+\end{itemize}
+
+With this information, further modeling could be carried out to
+provide more reliable suggestions. However, in the absence of this
+research it seems that it might be a good idea to hedge bets by
+instead designing further insurance products (assuming they can reach
+the market in a reasonable time-frame) that exhibit one of the following:
+
+\begin{itemize}
+  \item Attract much higher customer volumes with lower claim
+    probabilities, likely at the cost of a lower premium price. That
+    is, an ``economy'' or ``entry-level'' policy for a new class of
+    customer. Equivalently, we could design this policy to have a cap
+    on the maximum payout or a more predictable distribution of claims
+    to limit losses.
+  \item A ``high-end'' option with a much higher premium, again
+    targeting new customers. We expect claims with higher probability
+    here and offer a high cap on maximum claim, but cover this with a
+    bigger premium.
+\end{itemize}
 
 \end{document}
