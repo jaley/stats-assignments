@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} Returns a vector of length n\PYGdefaultZus{}runs containing simulated values}
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} for the year end assets.}
+simulate.year.end.assets \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}n\PYGdefaultZus{}runs \PYGdefault{o}{=} \PYGdefault{l+m}{10000}\PYGdefault{p}{,}
+                                     start\PYGdefaultZus{}assets \PYGdefault{o}{=} \PYGdefault{l+m}{250000}\PYGdefault{p}{,}
+                                     n\PYGdefaultZus{}customers \PYGdefault{o}{=} \PYGdefault{l+m}{1000}\PYGdefault{p}{,}
+                                     premium \PYGdefault{o}{=} \PYGdefault{l+m}{6000}\PYGdefault{p}{,}
+                                     claim\PYGdefaultZus{}prob \PYGdefault{o}{=} \PYGdefault{l+m}{0.1}\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  \PYGdefault{c+c1}{\PYGdefaultZsh{} Accumulate year\PYGdefaultZhy{}end assets in a vector}
+  outcomes \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{numeric}\PYGdefault{p}{(}length \PYGdefault{o}{=} n\PYGdefaultZus{}runs\PYGdefault{p}{)}
+  \PYGdefault{k+kr}{for}\PYGdefault{p}{(}i \PYGdefault{k+kr}{in} \PYGdefault{l+m}{1}\PYGdefault{o}{:}n\PYGdefaultZus{}runs\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+    \PYGdefault{c+c1}{\PYGdefaultZsh{} Number of claims this year, in this simulation}
+    n\PYGdefaultZus{}claims \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} rbinom\PYGdefault{p}{(}\PYGdefault{l+m}{1}\PYGdefault{p}{,} n\PYGdefaultZus{}customers\PYGdefault{p}{,} claim\PYGdefaultZus{}prob\PYGdefault{p}{)}
+
+    \PYGdefault{c+c1}{\PYGdefaultZsh{} Calculate year\PYGdefaultZhy{}end profit/loss for this number of claims, by}
+    \PYGdefault{c+c1}{\PYGdefaultZsh{} drawing from Pareto distribution}
+    outcomes\PYGdefault{p}{[}i\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} start\PYGdefaultZus{}assets \PYGdefault{o}{+}
+      \PYGdefault{p}{(}n\PYGdefaultZus{}customers \PYGdefault{o}{*} premium\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZhy{}}
+      \PYGdefault{k+kp}{sum}\PYGdefault{p}{(}pareto.inv.cdf\PYGdefault{p}{(}\PYGdefault{l+m}{3}\PYGdefault{p}{,} \PYGdefault{l+m}{100000}\PYGdefault{p}{,} runif\PYGdefault{p}{(}n\PYGdefaultZus{}claims\PYGdefault{p}{)))}
+  \PYGdefault{p}{\PYGdefaultZcb{}}
+  \PYGdefault{k+kr}{return}\PYGdefault{p}{(}outcomes\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Reformat simulation data into a data frame for plotting}
+\PYGdefault{c+c1}{\PYGdefaultZsh{} a histogram of the simulation outcomes}
+bankruptcy \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{data.frame}\PYGdefault{p}{(}assets\PYGdefault{o}{=}simulate.year.end.assets\PYGdefault{p}{())}
+ggplot\PYGdefault{p}{(}bankruptcy\PYGdefault{p}{,} aes\PYGdefault{p}{(}assets\PYGdefault{p}{))} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}density\PYGdefault{p}{(}colour\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{,} fill\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{,} alpha\PYGdefault{o}{=}\PYGdefault{l+m}{0.1}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}vline\PYGdefault{p}{(}xintercept \PYGdefault{o}{=} \PYGdefault{l+m}{0}\PYGdefault{p}{,} linetype\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}longdash\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  xlab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Assets at Year End\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  ylab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Probability Density\PYGdefaultZdq{}}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Calculate the probability of bankruptcy, i.e. the proportion}
+\PYGdefault{c+c1}{\PYGdefaultZsh{} of outcomes where year end profits were less than zero.}
+\PYGdefault{k+kp}{sum}\PYGdefault{p}{(}bankruptcy\PYGdefault{p}{[}\PYGdefault{l+s}{\PYGdefaultZsq{}assets\PYGdefaultZsq{}}\PYGdefault{p}{]} \PYGdefault{o}{\PYGdefaultZlt{}} \PYGdefault{l+m}{0}\PYGdefault{p}{)} \PYGdefault{o}{/} n\PYGdefaultZus{}runs
+\end{Verbatim}

@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} Esimate the probability of bankruptcy for a premium of given price}
+bankruptcy.prob \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}premium\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  N \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{l+m}{10000}
+  assets \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} simulate.year.end.assets\PYGdefault{p}{(}premium\PYGdefault{o}{=}premium\PYGdefault{p}{,} n\PYGdefaultZus{}runs\PYGdefault{o}{=}N\PYGdefault{p}{)}
+  \PYGdefault{k+kp}{sum}\PYGdefault{p}{(}assets \PYGdefault{o}{\PYGdefaultZlt{}} \PYGdefault{l+m}{0}\PYGdefault{p}{)} \PYGdefault{o}{/} N
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+premiums \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kp}{seq}\PYGdefault{p}{(}from\PYGdefault{o}{=}\PYGdefault{l+m}{5500}\PYGdefault{p}{,} to\PYGdefault{o}{=}\PYGdefault{l+m}{8000}\PYGdefault{p}{,} by\PYGdefault{o}{=}\PYGdefault{l+m}{250}\PYGdefault{p}{)}
+premium.data \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{data.frame}\PYGdefault{p}{(}premium.price \PYGdefault{o}{=} premiums\PYGdefault{p}{,}
+                           bankruptcy.prob \PYGdefault{o}{=} \PYGdefault{k+kp}{sapply}\PYGdefault{p}{(}premiums\PYGdefault{p}{,} bankruptcy.prob\PYGdefault{p}{))}
+
+
+ggplot\PYGdefault{p}{(}premium.data\PYGdefault{p}{,} aes\PYGdefault{p}{(}x\PYGdefault{o}{=}premium.price\PYGdefault{p}{,} y\PYGdefault{o}{=}bankruptcy.prob\PYGdefault{p}{))} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}line\PYGdefault{p}{(}colour\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  stat\PYGdefaultZus{}hline\PYGdefault{p}{(}yintercept \PYGdefault{o}{=} \PYGdefault{l+m}{0.02}\PYGdefault{p}{,} linetype\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}longdash\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  xlab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Premium Price (GBP)\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  ylab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Probability of Bankruptcy\PYGdefaultZdq{}}\PYGdefault{p}{)}
+\end{Verbatim}

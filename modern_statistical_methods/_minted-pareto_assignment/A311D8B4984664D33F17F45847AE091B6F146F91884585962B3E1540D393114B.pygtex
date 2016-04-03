@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} Probability density function for the Paretro distribution, with}
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} parameters alpha and beta}
+pareto.pdf \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}alpha\PYGdefault{p}{,} \PYGdefault{k+kp}{beta}\PYGdefault{p}{,} x\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  \PYGdefault{p}{(}alpha \PYGdefault{o}{*} \PYGdefault{k+kp}{beta}\PYGdefault{o}{\PYGdefaultZca{}}alpha\PYGdefault{p}{)} \PYGdefault{o}{/} \PYGdefault{p}{(}x \PYGdefault{o}{+} \PYGdefault{k+kp}{beta}\PYGdefault{p}{)}\PYGdefault{o}{\PYGdefaultZca{}}\PYGdefault{p}{(}alpha \PYGdefault{o}{+} \PYGdefault{l+m}{1}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} Cumulative distribution funtion for Paretro distribution with paremeters}
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} alpha abd beta.}
+pareto.cdf \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}alpha\PYGdefault{p}{,} \PYGdefault{k+kp}{beta}\PYGdefault{p}{,} u\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  \PYGdefault{l+m}{1} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{p}{(}beta \PYGdefault{o}{/} \PYGdefault{p}{(}u \PYGdefault{o}{+} \PYGdefault{k+kp}{beta}\PYGdefault{p}{))}\PYGdefault{o}{\PYGdefaultZca{}}alpha
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} Inverse cumulative distribution function for the Pareto}
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} distribution. Alpha and Beta are distribution parameters,}
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsq{} q should be a value between 0 and 1.}
+pareto.inv.cdf \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}alpha\PYGdefault{p}{,} \PYGdefault{k+kp}{beta}\PYGdefault{p}{,} \PYGdefault{k+kp}{q}\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  beta \PYGdefault{o}{*} \PYGdefault{p}{((}\PYGdefault{l+m}{1} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{k+kp}{q}\PYGdefault{p}{)}\PYGdefault{o}{\PYGdefaultZca{}}\PYGdefault{p}{(}\PYGdefault{l+m}{\PYGdefaultZhy{}1}\PYGdefault{o}{/}alpha\PYGdefault{p}{)} \PYGdefault{o}{\PYGdefaultZhy{}} \PYGdefault{l+m}{1}\PYGdefault{p}{)}
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsh{} Compare simulated values to the density function}
+pareto \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{data.frame}\PYGdefault{p}{(}simulated \PYGdefault{o}{=} pareto.inv.cdf\PYGdefault{p}{(}\PYGdefault{l+m}{3}\PYGdefault{p}{,} \PYGdefault{l+m}{100000}\PYGdefault{p}{,} runif\PYGdefault{p}{(}\PYGdefault{l+m}{10000}\PYGdefault{p}{)))}
+ggplot\PYGdefault{p}{(}pareto\PYGdefault{p}{,} aes\PYGdefault{p}{(}simulated\PYGdefault{p}{))} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}density\PYGdefault{p}{(}colour\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}red\PYGdefaultZdq{}}\PYGdefault{p}{,} fill\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}red\PYGdefaultZdq{}}\PYGdefault{p}{,} alpha\PYGdefault{o}{=}\PYGdefault{l+m}{0.1}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  stat\PYGdefaultZus{}function\PYGdefault{p}{(}fun \PYGdefault{o}{=} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}x\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}pareto.pdf\PYGdefault{p}{(}\PYGdefault{l+m}{3}\PYGdefault{p}{,} \PYGdefault{l+m}{100000}\PYGdefault{p}{,} x\PYGdefault{p}{)\PYGdefaultZcb{},}
+                colour\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{,} geom\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}area\PYGdefaultZdq{}}\PYGdefault{p}{,} alpha\PYGdefault{o}{=}\PYGdefault{l+m}{0.1}\PYGdefault{p}{,} fill\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  xlab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}X\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  ylab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Density\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  xlim\PYGdefault{p}{(}\PYGdefault{l+m}{0}\PYGdefault{p}{,} \PYGdefault{l+m}{100000}\PYGdefault{p}{)}
+\end{Verbatim}

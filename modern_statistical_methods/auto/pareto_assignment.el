@@ -7,5 +7,12 @@
     "art10"
     "amsmath"
     "amssymb"
-    "listings")))
+    "minted"
+    "graphicx")
+   (LaTeX-add-labels
+    "fig:q1c_histogram"
+    "fig:q2_histogram"
+    "fig:q3_premiums"
+    "fig:q3_claims"
+    "fig:q4_customers")))
 

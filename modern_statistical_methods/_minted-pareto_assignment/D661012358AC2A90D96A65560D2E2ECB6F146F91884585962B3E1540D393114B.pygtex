@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+bankruptcy.prob.claim \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kr}{function}\PYGdefault{p}{(}claim.prob\PYGdefault{p}{)} \PYGdefault{p}{\PYGdefaultZob{}}
+  N \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{l+m}{10000}
+  assets \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} simulate.year.end.assets\PYGdefault{p}{(}claim\PYGdefaultZus{}prob \PYGdefault{o}{=} claim.prob\PYGdefault{p}{,} n\PYGdefaultZus{}runs\PYGdefault{o}{=}N\PYGdefault{p}{)}
+  \PYGdefault{k+kp}{sum}\PYGdefault{p}{(}assets \PYGdefault{o}{\PYGdefaultZlt{}} \PYGdefault{l+m}{0}\PYGdefault{p}{)} \PYGdefault{o}{/} N
+\PYGdefault{p}{\PYGdefaultZcb{}}
+
+claims \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kp}{seq}\PYGdefault{p}{(}from\PYGdefault{o}{=}\PYGdefault{l+m}{0.05}\PYGdefault{p}{,} to\PYGdefault{o}{=}\PYGdefault{l+m}{0.15}\PYGdefault{p}{,} by\PYGdefault{o}{=}\PYGdefault{l+m}{0.005}\PYGdefault{p}{)}
+claim.data \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{data.frame}\PYGdefault{p}{(}claim.prob \PYGdefault{o}{=} claims\PYGdefault{p}{,}
+                         bankruptcy.prob \PYGdefault{o}{=}
+                           \PYGdefault{k+kp}{sapply}\PYGdefault{p}{(}claims\PYGdefault{p}{,} bankruptcy.prob.claim\PYGdefault{p}{))}
+
+ggplot\PYGdefault{p}{(}claim.data\PYGdefault{p}{,} aes\PYGdefault{p}{(}x\PYGdefault{o}{=}claim.prob\PYGdefault{p}{,} y\PYGdefault{o}{=}bankruptcy.prob\PYGdefault{p}{))} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}line\PYGdefault{p}{(}colour\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}blue\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  stat\PYGdefaultZus{}hline\PYGdefault{p}{(}yintercept \PYGdefault{o}{=} \PYGdefault{l+m}{0.02}\PYGdefault{p}{,} linetype\PYGdefault{o}{=}\PYGdefault{l+s}{\PYGdefaultZdq{}longdash\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  xlab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Claim Probability\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  ylab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Probability of Bankruptcy\PYGdefaultZdq{}}\PYGdefault{p}{)}
+\end{Verbatim}

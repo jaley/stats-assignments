@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Install ggplot if it\PYGdefaultZsq{}s not already available}
+install.packages\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZsq{}ggplot2\PYGdefaultZsq{}}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Now load the functions from the ggplot2 package}
+\PYGdefault{k+kn}{require}\PYGdefault{p}{(}ggplot2\PYGdefault{p}{)}
+\end{Verbatim}
