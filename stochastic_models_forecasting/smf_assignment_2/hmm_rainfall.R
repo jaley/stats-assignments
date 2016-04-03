@@ -19,11 +19,17 @@ monthly.rainfall$date <- as.Date(ISOdate(monthly.rainfall$Year,
                                          monthly.rainfall$Month, 1))
 
 # plot to check for seasonality
-ggplot(monthly.rainfall, aes(x=date, y=Rain)) +
+rainfall.plot <- ggplot(monthly.rainfall, aes(x=date, y=Rain)) +
   geom_line() +
   scale_x_date(labels = date_format("%b %Y")) +
   xlab("") +
   ylab("Proportion of days with rain in month")
+rainfall.plot
+
+# Zoom in on recent years to make seasonal pattern more clear
+rainfall.plot + xlim(c(as.Date(ISOdate(2000, 1, 1)), 
+                       as.Date(ISOdate(2010, 1, 1))))
+
 
 # Answer: we can clear seasonality every 12 months, with higher proportions
 # of rainfall in the winter months (for the southern hemisphere), peaking around
@@ -36,7 +42,6 @@ source('hmm_fitting.R')
 
 # Fit models
 
-# For a single state, both pi0 and gamma0 must be scalar
 rainfall.mle1 <- binary.HMM.mle(rainfall$Rain, 1, 0.99, 0.99)
 rainfall.mle2 <- binary.HMM.mle(rainfall$Rain, 2, 
                                 c(0.9, 0.1), 
@@ -148,6 +153,8 @@ mean(rainfall$local3 == rainfall$global3)
 # median value for pi is pi2, therefore table for global decoded state = 2:
 state.2 <- rainfall[rainfall$global3 == 2, ]
 head(state.2, n = 20)
+
+nrow(state.2)
 
 #     Year Month Day Rain local3 global3
 # 26  1971     1  26    0      2       2

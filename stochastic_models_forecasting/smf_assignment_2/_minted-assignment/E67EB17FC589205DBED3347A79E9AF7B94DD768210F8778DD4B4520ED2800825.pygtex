@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Load data}
+latdol.df \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} read.table\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}\PYGdefaultZti{}/Downloads/LatDol2.dat\PYGdefaultZdq{}}\PYGdefault{p}{,}
+                        header\PYGdefault{o}{=}\PYGdefault{n+nb+bp}{F}\PYGdefault{p}{,}
+                        col.names \PYGdefault{o}{=} \PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}year\PYGdefaultZdq{}}\PYGdefault{p}{,} \PYGdefault{l+s}{\PYGdefaultZdq{}month\PYGdefaultZdq{}}\PYGdefault{p}{,} \PYGdefault{l+s}{\PYGdefaultZdq{}avg\PYGdefaultZdq{}}\PYGdefault{p}{,} \PYGdefault{l+s}{\PYGdefaultZdq{}end\PYGdefaultZdq{}}\PYGdefault{p}{))}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Create the time series object}
+end.avg \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{data.frame}\PYGdefault{p}{(}dend\PYGdefault{o}{=}\PYGdefault{k+kp}{diff}\PYGdefault{p}{(}latdol.df\PYGdefault{o}{\PYGdefaultZdl{}}end\PYGdefault{p}{),}
+                      davg\PYGdefault{o}{=}\PYGdefault{k+kp}{diff}\PYGdefault{p}{(}latdol.df\PYGdefault{o}{\PYGdefaultZdl{}}avg\PYGdefault{p}{))}
+end.avg.ts \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} ts\PYGdefault{p}{(}end.avg\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Visualise first order differences}
+plot\PYGdefault{p}{(}end.avg.ts\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Fit model}
+ae.ar \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} ar\PYGdefault{p}{(}end.avg.ts\PYGdefault{p}{,} order.max \PYGdefault{o}{=} \PYGdefault{l+m}{10}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Pull in portes package to perform Portmanteau tests}
+\PYGdefault{k+kn}{require}\PYGdefault{p}{(}portes\PYGdefault{p}{)}
+portest\PYGdefault{p}{(}ae.ar\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Produce forecasts 3 months ahead}
+p \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} predict\PYGdefault{p}{(}ae.ar\PYGdefault{p}{,} n.ahead\PYGdefault{o}{=}\PYGdefault{l+m}{3}\PYGdefault{p}{)}
+
+p.davg \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kt}{c}\PYGdefault{p}{(}end.avg.ts\PYGdefault{p}{[,}\PYGdefault{l+m}{2}\PYGdefault{p}{],} p\PYGdefault{o}{\PYGdefaultZdl{}}pred\PYGdefault{p}{[,}\PYGdefault{l+m}{2}\PYGdefault{p}{])}
+p.avg \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} diffinv\PYGdefault{p}{(}p.davg\PYGdefault{p}{,} xi\PYGdefault{o}{=}latdol.df\PYGdefault{o}{\PYGdefaultZdl{}}avg\PYGdefault{p}{[}\PYGdefault{l+m}{1}\PYGdefault{p}{])}
+\end{Verbatim}

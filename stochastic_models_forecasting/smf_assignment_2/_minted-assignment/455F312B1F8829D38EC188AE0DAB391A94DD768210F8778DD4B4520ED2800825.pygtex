@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Install ggplot if it\PYGdefaultZsq{}s not already available}
+install.packages\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZsq{}ggplot2\PYGdefaultZsq{}}\PYGdefault{p}{)}
+\PYGdefault{k+kn}{require}\PYGdefault{p}{(}ggplot2\PYGdefault{p}{)}
+\PYGdefault{k+kn}{library}\PYGdefault{p}{(}scales\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsh{} Load data from text file}
+rainfall \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} read.table\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}data/MelbourneAirport.txt\PYGdefaultZdq{}}\PYGdefault{p}{,} header\PYGdefault{o}{=}\PYGdefault{n+nb+bp}{T}\PYGdefault{p}{)}
+rainfall\PYGdefault{o}{\PYGdefaultZdl{}}date \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kp}{as.Date}\PYGdefault{p}{(}\PYGdefault{k+kp}{ISOdate}\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Year\PYGdefault{p}{,} rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Month\PYGdefault{p}{,} rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Day\PYGdefault{p}{))}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{}\PYGdefaultZsh{} Average rainfall by month:}
+monthly.rainfall \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} aggregate\PYGdefault{p}{(}Rain \PYGdefault{o}{\PYGdefaultZti{}} Year \PYGdefault{o}{+} Month\PYGdefault{p}{,} data\PYGdefault{o}{=}rainfall\PYGdefault{p}{,} FUN\PYGdefault{o}{=}\PYGdefault{k+kp}{mean}\PYGdefault{p}{)}
+monthly.rainfall\PYGdefault{o}{\PYGdefaultZdl{}}date \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} \PYGdefault{k+kp}{as.Date}\PYGdefault{p}{(}\PYGdefault{k+kp}{ISOdate}\PYGdefault{p}{(}monthly.rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Year\PYGdefault{p}{,}
+                                         monthly.rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Month\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{))}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} plot to check for seasonality}
+rainfall.plot \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} ggplot\PYGdefault{p}{(}monthly.rainfall\PYGdefault{p}{,} aes\PYGdefault{p}{(}x\PYGdefault{o}{=}\PYGdefault{k+kp}{date}\PYGdefault{p}{,} y\PYGdefault{o}{=}Rain\PYGdefault{p}{))} \PYGdefault{o}{+}
+  geom\PYGdefaultZus{}line\PYGdefault{p}{()} \PYGdefault{o}{+}
+  scale\PYGdefaultZus{}x\PYGdefaultZus{}date\PYGdefault{p}{(}labels \PYGdefault{o}{=} date\PYGdefaultZus{}format\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}\PYGdefaultZpc{}b \PYGdefaultZpc{}Y\PYGdefaultZdq{}}\PYGdefault{p}{))} \PYGdefault{o}{+}
+  xlab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}\PYGdefaultZdq{}}\PYGdefault{p}{)} \PYGdefault{o}{+}
+  ylab\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZdq{}Proportion of days with rain in month\PYGdefaultZdq{}}\PYGdefault{p}{)}
+
+rainfall.plot
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Zoom in on recent years to make seasonal pattern more clear}
+rainfall.plot \PYGdefault{o}{+} xlim\PYGdefault{p}{(}\PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{k+kp}{as.Date}\PYGdefault{p}{(}\PYGdefault{k+kp}{ISOdate}\PYGdefault{p}{(}\PYGdefault{l+m}{2000}\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{)),}
+                       \PYGdefault{k+kp}{as.Date}\PYGdefault{p}{(}\PYGdefault{k+kp}{ISOdate}\PYGdefault{p}{(}\PYGdefault{l+m}{2010}\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{))))}
+\end{Verbatim}

@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Load the fitting code from lectures}
+\PYGdefault{k+kn}{source}\PYGdefault{p}{(}\PYGdefault{l+s}{\PYGdefaultZsq{}hmm\PYGdefaultZus{}fitting.R\PYGdefaultZsq{}}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Fit models}
+rainfall.mle1 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} binary.HMM.mle\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Rain\PYGdefault{p}{,} \PYGdefault{l+m}{1}\PYGdefault{p}{,} \PYGdefault{l+m}{0.99}\PYGdefault{p}{,} \PYGdefault{l+m}{0.99}\PYGdefault{p}{)}
+rainfall.mle2 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} binary.HMM.mle\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Rain\PYGdefault{p}{,} \PYGdefault{l+m}{2}\PYGdefault{p}{,}
+                                \PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{l+m}{0.9}\PYGdefault{p}{,} \PYGdefault{l+m}{0.1}\PYGdefault{p}{),}
+                                \PYGdefault{k+kt}{matrix}\PYGdefault{p}{(}\PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{l+m}{0.9}\PYGdefault{p}{,} \PYGdefault{l+m}{0.1}\PYGdefault{p}{,}
+                                         \PYGdefault{l+m}{0.1}\PYGdefault{p}{,} \PYGdefault{l+m}{0.9}\PYGdefault{p}{),}
+                                       nrow \PYGdefault{o}{=} \PYGdefault{l+m}{2}\PYGdefault{p}{))}
+rainfall.mle3 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} binary.HMM.mle\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Rain\PYGdefault{p}{,} \PYGdefault{l+m}{3}\PYGdefault{p}{,}
+                                \PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{l+m}{0.7}\PYGdefault{p}{,} \PYGdefault{l+m}{0.2}\PYGdefault{p}{,} \PYGdefault{l+m}{0.1}\PYGdefault{p}{),}
+                                \PYGdefault{k+kt}{matrix}\PYGdefault{p}{(}\PYGdefault{k+kt}{c}\PYGdefault{p}{(}\PYGdefault{l+m}{0.7}\PYGdefault{p}{,} \PYGdefault{l+m}{0.2}\PYGdefault{p}{,}  \PYGdefault{l+m}{0.1}\PYGdefault{p}{,}
+                                         \PYGdefault{l+m}{0.2}\PYGdefault{p}{,} \PYGdefault{l+m}{0.7}\PYGdefault{p}{,} \PYGdefault{l+m}{0.1}\PYGdefault{p}{,}
+                                         \PYGdefault{l+m}{0.1}\PYGdefault{p}{,}  \PYGdefault{l+m}{0.2}\PYGdefault{p}{,} \PYGdefault{l+m}{0.7}\PYGdefault{p}{),}
+                                       nrow \PYGdefault{o}{=} \PYGdefault{l+m}{3}\PYGdefault{p}{))}
+\end{Verbatim}

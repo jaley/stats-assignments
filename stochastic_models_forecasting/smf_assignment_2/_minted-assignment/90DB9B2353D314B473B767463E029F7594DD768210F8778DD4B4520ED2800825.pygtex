@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Perform local decoding for 3\PYGdefaultZhy{}state model}
+local.decoding.3 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} binary.HMM.local\PYGdefaultZus{}decoding\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Rain\PYGdefault{p}{,}
+                                              \PYGdefault{l+m}{3}\PYGdefault{p}{,}
+                                              rainfall.mle3\PYGdefault{o}{\PYGdefaultZdl{}}\PYGdefault{k+kc}{pi}\PYGdefault{p}{,}
+                                              rainfall.mle3\PYGdefault{o}{\PYGdefaultZdl{}}\PYGdefault{k+kp}{gamma}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Perform global decoding for 3\PYGdefaultZhy{}state model}
+global.decoding.3 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} binary.HMM.viterbi\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}Rain\PYGdefault{p}{,}
+                                        \PYGdefault{l+m}{3}\PYGdefault{p}{,}
+                                        rainfall.mle3\PYGdefault{o}{\PYGdefaultZdl{}}\PYGdefault{k+kc}{pi}\PYGdefault{p}{,}
+                                        rainfall.mle3\PYGdefault{o}{\PYGdefaultZdl{}}\PYGdefault{k+kp}{gamma}\PYGdefault{p}{)}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} Add to data frame}
+rainfall\PYGdefault{o}{\PYGdefaultZdl{}}local3 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} local.decoding.3
+rainfall\PYGdefault{o}{\PYGdefaultZdl{}}global3 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} global.decoding.3
+
+\PYGdefault{k+kp}{head}\PYGdefault{p}{(}rainfall\PYGdefault{p}{,} n \PYGdefault{o}{=} \PYGdefault{l+m}{20}\PYGdefault{p}{)}
+
+\PYGdefault{k+kp}{mean}\PYGdefault{p}{(}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}local3 \PYGdefault{o}{==} rainfall\PYGdefault{o}{\PYGdefaultZdl{}}global3\PYGdefault{p}{)}
+\PYGdefault{c+c1}{\PYGdefaultZsh{} == 1, therefore the local and global decodings are the same}
+
+\PYGdefault{c+c1}{\PYGdefaultZsh{} median value for pi is pi2, therefore table for global decoded state = 2:}
+state.2 \PYGdefault{o}{\PYGdefaultZlt{}\PYGdefaultZhy{}} rainfall\PYGdefault{p}{[}rainfall\PYGdefault{o}{\PYGdefaultZdl{}}global3 \PYGdefault{o}{==} \PYGdefault{l+m}{2}\PYGdefault{p}{,} \PYGdefault{p}{]}
+\PYGdefault{k+kp}{head}\PYGdefault{p}{(}state.2\PYGdefault{p}{,} n \PYGdefault{o}{=} \PYGdefault{l+m}{20}\PYGdefault{p}{)}
+\end{Verbatim}

@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+/* load data */
+data lat;
+infile \PYGdefaultZdq{}/folders/myfolders/LatDol2.dat\PYGdefaultZdq{};
+input year month avg end;
+
+/* configure date format */
+date = mdy(month, 1, year);
+format date MMYYS.;
+
+proc arima data=lat;
+
+identify var=end(1);
+estimate noint;
+
+identify var=avg(1) crosscor=end(1);
+estimate input=(1 \PYGdefaultZdl{} / (1) end) noint;
+
+forecast lead=3;
+
+run;
+\end{Verbatim}

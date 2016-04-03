@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+/* configure date format */
+date = mdy(month, 1, year);
+format date MMYYS.;
+
+/* time series visualisations for raw data, unmodified */
+proc sgplot data=lat;
+ series x=date y=avg  ;
+ xaxis min=14686;
+
+proc sgplot data=lat;
+ series x=date y=end;
+
+/* arima fitting */
+proc arima data=lat;
+
+* Fitting model for avg variable
+identify var=avg(1);
+estimate p=1 noint;
+forecast id=date interval=month lead=12;
+
+* Fitting Model for end variable
+identify var=end(1);
+estimate noint;
+forecast lead=12;
+
+run;
+\end{Verbatim}

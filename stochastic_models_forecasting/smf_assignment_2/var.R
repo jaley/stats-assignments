@@ -22,6 +22,8 @@ ae.ar <- ar(end.avg.ts, order.max = 10)
 # 7           8           9          10 
 # 7.1443091   8.3526617  14.7442086  18.0807729 
 
+ae.ar
+
 # Pull in portes package to perform Portmanteau tests
 require(portes)
 portest(ae.ar)
